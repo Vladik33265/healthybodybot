@@ -3,4 +3,6 @@ aiogram==3.6.0
 sqlalchemy==2.0.30
 pydantic
 pydantic_settings
-environs
+environs~=11.0.0
+pandas~=2.2.2
+docx

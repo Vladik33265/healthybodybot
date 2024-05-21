@@ -41,5 +41,5 @@ class Products(Base):
     name = Column(String, nullable=False)
     brand = Column(String, nullable=False)
     description = Column(String, nullable=False)
-    count = Column(Float, nullable=False)
     price = Column(Float, nullable=False)
+    count = Column(String, nullable=False)

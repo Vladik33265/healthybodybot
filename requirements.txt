@@ -1,0 +1,6 @@
+pip==24.0
+aiogram==3.6.0
+sqlalchemy==2.0.30
+pydantic
+pydantic_settings
+environs

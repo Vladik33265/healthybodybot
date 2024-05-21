@@ -1,4 +1,4 @@
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 
 
 # Кнопка, перенапрвляющая на регистрацию пользователя
@@ -11,8 +11,8 @@ def register_user() -> InlineKeyboardMarkup:
 
 # Кнопка, перенапрвляющая на подбор питания
 def pickup_food() -> InlineKeyboardMarkup:
-    signup_button = InlineKeyboardButton(text="Подобрать спортивное питание", callback_data="/pickup")
-    keyboard = InlineKeyboardMarkup(inline_keyboard=[[signup_button]])
+    sport_food = InlineKeyboardButton(text="Подобрать спортивное питание", callback_data="/pickup")
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[[sport_food]])
 
     return keyboard
 
@@ -27,4 +27,10 @@ def social_links() -> InlineKeyboardMarkup:
 
     markup = InlineKeyboardMarkup(inline_keyboard=[[tg_channel], [instagram],])
 
+    return markup
+
+def result() -> InlineKeyboardMarkup:
+    url = 'https://google.com/'
+    button = InlineKeyboardButton(text="Посмотреть результат", web_app=WebAppInfo(url=url))
+    markup = InlineKeyboardMarkup(inline_keyboard=[[button]])
     return markup

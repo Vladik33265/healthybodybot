@@ -7,6 +7,11 @@ from backend.src.telegram.states import States
 
 from backend.src.telegram.handlers.auth.start import start
 from backend.src.telegram.handlers.auth.signup import signup, get_phone
+
+from backend.src.telegram.handlers.pickup import (pickup_command, pickup_button, lets_pickup, main_target,
+                                                  too_much_weight, trauma_team, cholesterol, hearth, lactose,
+                                                  additional_desire)
+
 from backend.src.telegram.handlers.social import social
 # from backend.src.telegram.handlers.support import support
 
@@ -25,7 +30,16 @@ if __name__ == '__main__':
     dp.message.register(get_phone, States.phone)
 
     # Регистрация обработчиков, связанных с командой /pickup
-    ...
+    dp.message.register(pickup_command, Command('pickup'))
+    dp.callback_query.register(pickup_button, lambda c: c.data == '/pickup')
+    dp.message.register(lets_pickup, States.confirm_pickup)
+    dp.callback_query.register(main_target, lambda c: c.data.startswith('target'))
+    dp.message.register(too_much_weight, States.overweight_state)
+    dp.message.register(trauma_team, States.trauma_state)
+    dp.message.register(cholesterol, States.cholesterol_state)
+    dp.message.register(hearth, States.hearth_state)
+    dp.message.register(lactose, States.lactose_state)
+    dp.callback_query.register(additional_desire, lambda c: c.data.startswith('desire'))
 
     # Регистрация обработчиков, связанных с командой /social
     dp.message.register(social, Command('social'))

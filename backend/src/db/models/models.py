@@ -11,16 +11,16 @@ class Users(Base):
     first_name = Column(String, nullable=False)
     phone_number = Column(String, nullable=False, unique=True)
 
-    @staticmethod
-    def find_user(tg_id: int):
+    @classmethod
+    def find_user(cls, tg_id: int):
         with session:
-            is_user = select(Users).filter_by(tg_id=tg_id)
+            is_user = select(cls).filter_by(tg_id=tg_id)
             result = session.execute(is_user)
-            return result.mappings().first() if result else None
+            return result.scalar_one_or_none()
 
     @classmethod
     def create(cls, tg_id: int, tg_username: str, first_name: str, phone_number: str):
-        with (session):
+        with session:
             user = Users.find_user(tg_id)
 
             if not user:
@@ -43,3 +43,10 @@ class Products(Base):
     description = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     count = Column(String, nullable=False)
+
+    @classmethod
+    async def get_name(cls, name):
+        with session:
+            product = select(cls).filter_by(name=name)
+            result = session.execute(product)
+            return result.mappings().all()

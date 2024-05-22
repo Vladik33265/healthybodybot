@@ -6,8 +6,8 @@ class Users(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    tg_id = Column(Integer, nullable=False, unique=True)
-    tg_username = Column(String, nullable=False, unique=True)
+    tg_id = Column(Integer, unique=True)
+    tg_username = Column(String, unique=True)
     first_name = Column(String, nullable=False)
     phone_number = Column(String, nullable=False, unique=True)
 

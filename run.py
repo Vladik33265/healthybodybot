@@ -11,9 +11,7 @@ from backend.src.telegram.handlers.auth.signup import signup, get_phone
 from backend.src.telegram.handlers.pickup import (pickup_command, pickup_button, lets_pickup, main_target,
                                                   too_much_weight, trauma_team, cholesterol, hearth, lactose,
                                                   desire_skin, desire_fatigue, desire_immunity, desire_pain_muscles)
-
 from backend.src.telegram.handlers.social import social
-# from backend.src.telegram.handlers.support import support
 
 
 if __name__ == '__main__':
@@ -46,8 +44,5 @@ if __name__ == '__main__':
 
     # Регистрация обработчиков, связанных с командой /social
     dp.message.register(social, Command('social'))
-
-    # Регистрация обработчиков, связанных с командой /support
-    # dp.message.register(support, Command('support'))
 
     dp.run_polling(bot)

@@ -7,7 +7,9 @@ def delete_all():
         cursor = conn.cursor()
 
         if conn:
-            cursor.execute('''DELETE FROM users''')
+
+            cursor.execute('''DELETE FROM users where first_name = "Влад"''')
+
             conn.commit()
         else:
             conn.rollback()

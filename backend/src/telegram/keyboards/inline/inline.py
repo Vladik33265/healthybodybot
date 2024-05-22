@@ -21,16 +21,20 @@ def pickup_food() -> InlineKeyboardMarkup:
 def social_links() -> InlineKeyboardMarkup:
     tg_channel_link = 'https://t.me/healthy_body/'
     instagram_link = 'https://www.instagram.com/healthy_body/'
+    official_link = 'https://www.google.com'  #####################
 
     tg_channel = InlineKeyboardButton(text="Наш Телеграм-канал", url=tg_channel_link)
     instagram = InlineKeyboardButton(text="Наш Instagram", url=instagram_link)
+    official = InlineKeyboardButton(text="Официальный сайт", url=official_link)
 
-    markup = InlineKeyboardMarkup(inline_keyboard=[[tg_channel], [instagram],])
+    markup = InlineKeyboardMarkup(inline_keyboard=[[tg_channel], [instagram], [official]])
 
     return markup
 
+
 def result() -> InlineKeyboardMarkup:
-    url = 'https://google.com/'
+    url = 'https://localhost:8000/result'
+
     button = InlineKeyboardButton(text="Посмотреть результат", web_app=WebAppInfo(url=url))
     markup = InlineKeyboardMarkup(inline_keyboard=[[button]])
     return markup

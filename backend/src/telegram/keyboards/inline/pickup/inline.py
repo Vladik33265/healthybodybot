@@ -18,6 +18,7 @@ def basic_target() -> InlineKeyboardMarkup:
     ])
     return keyboard
 
+
 def add_desire() -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text='Улучшить состояние кожи', callback_data='desire:Улучшить состояние кожи')],

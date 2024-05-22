@@ -17,7 +17,7 @@ async def signup(callback_query: CallbackQuery, state: FSMContext):
                                    "Тебе доступны мои инструменты, взгляни на меню.")
         else:
             await bot.send_message(callback_query.from_user.id,
-                                   "Регистрация займёт менее 1 одном минуты. "
+                                   "Регистрация займёт <b>менее 1-ой минуты</b>. "
                                    "После неё ты сможешь продолжить работу со мной!.\n"
                                    "Напиши свой номер телефона..")
             await state.set_state(States.phone)

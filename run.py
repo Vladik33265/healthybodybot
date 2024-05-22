@@ -10,7 +10,7 @@ from backend.src.telegram.handlers.auth.signup import signup, get_phone
 
 from backend.src.telegram.handlers.pickup import (pickup_command, pickup_button, lets_pickup, main_target,
                                                   too_much_weight, trauma_team, cholesterol, hearth, lactose,
-                                                  additional_desire)
+                                                  desire_skin, desire_fatigue, desire_immunity, desire_pain_muscles)
 
 from backend.src.telegram.handlers.social import social
 # from backend.src.telegram.handlers.support import support
@@ -39,7 +39,10 @@ if __name__ == '__main__':
     dp.message.register(cholesterol, States.cholesterol_state)
     dp.message.register(hearth, States.hearth_state)
     dp.message.register(lactose, States.lactose_state)
-    dp.callback_query.register(additional_desire, lambda c: c.data.startswith('desire'))
+    dp.message.register(desire_skin, States.skin)
+    dp.message.register(desire_fatigue, States.fatigue)
+    dp.message.register(desire_immunity, States.immunity)
+    dp.message.register(desire_pain_muscles, States.pain)
 
     # Регистрация обработчиков, связанных с командой /social
     dp.message.register(social, Command('social'))

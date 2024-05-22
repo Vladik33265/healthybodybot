@@ -1,4 +1,4 @@
-/.env
-/.venv
-/.idea
-/.gitignore
+\.env
+\.venv
+\.idea
+\healthy_body_db.db

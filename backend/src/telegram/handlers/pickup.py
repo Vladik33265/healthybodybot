@@ -65,7 +65,7 @@ async def main_target(callback_query: CallbackQuery, state: FSMContext):
 
         await bot.send_message(callback_query.from_user.id,
                                "Следующий вопрос.\n"
-                               "Имеется ли у тебя склонность к лишнему весу?", reply_markup=yes_no())
+                               "Имеется ли у Вас <b>склонность к лишнему весу?</b>", reply_markup=yes_no())
         await state.set_state(States.overweight_state)
         await state.set_data(user_data)
     except Exception as e:
@@ -93,7 +93,7 @@ async def too_much_weight(message: Message, state: FSMContext):
                     user_data['list'].append('Жиросжигатели')
 
         await message.answer("Следующий вопрос.\n"
-                             "Есть ли у тебя травмы, боли в связках или суставах?", reply_markup=yes_no())
+                             "Есть ли у Вас <b>травмы, боли в связках или суставах?</b>", reply_markup=yes_no())
         await state.set_state(States.trauma_state)
         await state.set_data(user_data)
     except Exception as e:
@@ -114,7 +114,7 @@ async def trauma_team(message: Message, state: FSMContext):
                 user_data['list'].append('Глюкозамин/хондроитин')
 
         await message.answer("Окей, следующий вопрос. Почти закончили..\n"
-                             "Есть ли у тебя проблемы с высоким холестерином?", reply_markup=yes_no())
+                             "Есть ли у Вас <b>проблемы с высоким холестерином?</b>", reply_markup=yes_no())
         await state.set_state(States.cholesterol_state)
         await state.set_data(user_data)
     except Exception as e:
@@ -134,13 +134,12 @@ async def cholesterol(message: Message, state: FSMContext):
             if answer == 'Да':
                 user_data['list'].append('Омега 3-6-9')
 
-        await message.answer("Окей, следующий вопрос. Почти закончили..\n"
-                             "Присутствуют ли у тебя заболевания сердца?", reply_markup=yes_no())
+        await message.answer("Присутствуют ли у Вас <b>заболевания сердца?</b>", reply_markup=yes_no())
         await state.set_state(States.hearth_state)
         await state.set_data(user_data)
         await message.answer("P.S От врачей:\n"
-                             "Настоятельно рекомендуется не использовать добавки, "
-                             "содержащие кофеин и другие стимуляторы")
+                             "<b>Настоятельно рекомендуется не использовать добавки, "
+                             "содержащие кофеин и другие стимуляторы</b>")
     except Exception as e:
         logger.exception("trauma_team", e)
         await message.answer("Кажется, произошла какая-то ошибка, извините, пожалуйста, мы решаем эти проблемы....")
@@ -158,7 +157,7 @@ async def hearth(message: Message, state: FSMContext):
             if answer == 'Да':
                 user_data['list'].append('Поливитаминный комплекс')
 
-        await message.answer("Имеется ли у Вас непереносимость лактозы или животных белков??", reply_markup=yes_no())
+        await message.answer("Имеется ли у Вас <b>непереносимость лактозы или животных белков?</b>", reply_markup=yes_no())
         await state.set_state(States.lactose_state)
         await state.set_data(user_data)
     except Exception as e:
@@ -184,43 +183,97 @@ async def lactose(message: Message, state: FSMContext):
 
                 user_data['list'].append('Соевый изолят')
 
-        await message.answer("Может быть у Вас есть какие-то дополнительные пожелания по спортивному питанию?",
-                             reply_markup=add_desire())
+        await message.answer("Может быть у Вас есть какие-то дополнительные пожелания по спортивному питанию?\n"
+                             "\n"
+                             "Например, у Вас есть желание <b>Улучшить состояние кожи</b>?",
+                             reply_markup=yes_no())
+        await state.set_state(States.skin)
         await state.set_data(user_data)
     except Exception as e:
         logger.exception("lactose", e)
         await message.answer("Кажется, произошла какая-то ошибка, извините, пожалуйста, мы решаем эти проблемы....")
 
-
-async def additional_desire(callback_query: CallbackQuery, state: FSMContext):
+async def desire_skin(message: Message, state: FSMContext):
     try:
         user_data = await state.get_data()
-        data = callback_query.data.replace('desire:', '')
+
+        await state.update_data(answer=message.text)
+        get_data = await state.get_data()
+        answer = get_data.get('answer')
 
         if 'list' in user_data:
-            if data == 'Улучшить состояние кожи':
-                user_data['list'].append('Коллаген')
-            if data == 'Снизить утомляемость':
-                user_data['list'].append('Бета-аланин')
-            if data == 'Укрепить иммунитет':
+            if answer == 'Да':
+                if 'Коллаген' not in user_data['list']:
+                    user_data['list'].append('Коллаген')
+
+        await message.answer("Хорошо, может быть Вы хотите <b>Снизить утомляемость</b>?", reply_markup=yes_no())
+        await state.set_state(States.fatigue)
+        await state.set_data(user_data)
+    except Exception as e:
+        logger.exception("desire_skin", e)
+        await message.answer("Кажется, произошла какая-то ошибка, извините, пожалуйста, мы решаем эти проблемы....")
+
+
+async def desire_fatigue(message: Message, state: FSMContext):
+    try:
+        user_data = await state.get_data()
+
+        await state.update_data(answer=message.text)
+        get_data = await state.get_data()
+        answer = get_data.get('answer')
+
+        if 'list' in user_data:
+            if answer == 'Да':
+                if 'Бета-аланин' not in user_data['list']:
+                    user_data['list'].append('Бета-аланин')
+
+        await message.answer("Вы хотите <b>Укрепить иммунитет</b>?", reply_markup=yes_no())
+        await state.set_state(States.immunity)
+        await state.set_data(user_data)
+    except Exception as e:
+        logger.exception("desire_fatigue", e)
+        await message.answer("Кажется, произошла какая-то ошибка, извините, пожалуйста, мы решаем эти проблемы....")
+
+
+async def desire_immunity(message: Message, state: FSMContext):
+    try:
+        user_data = await state.get_data()
+
+        await state.update_data(answer=message.text)
+        get_data = await state.get_data()
+        answer = get_data.get('answer')
+
+        if 'list' in user_data:
+            if answer == 'Да':
                 if 'Поливитаминный комплекс' not in user_data['list']:
                     user_data['list'].append('Поливитаминный комплекс')
-            if data == 'Снизить боль в мышцах':
-                user_data['list'].append('BCAA')
-            await state.set_data(user_data)
-            print(user_data['list'])
 
-        await bot.send_chat_action(callback_query.from_user.id, action='typing')
-        # await bot.send_message(callback_query.from_user.id,
-        #                        "Спасибо большое, что ответили на все вопросы и дошли до конца!\n"
-        #                        "Я подобрал для Вас наиболее подходящее спортивное питание, Вы можете посмотреть ниже",
-        #                        reply_markup=result())
-        list_str = "\n".join(user_data['list'])
-
-        await bot.send_message(callback_query.from_user.id,
-                               "Наиболее подходящие для вас добавки:\n"
-                               f"{list_str}")
+        await message.answer("Также, Вы хотите <b>Снизить боль в мышцах?</b>", reply_markup=yes_no())
+        await state.set_state(States.pain)
+        await state.set_data(user_data)
     except Exception as e:
-        logger.exception("additional_desire", e)
-        await bot.send_message(callback_query.from_user.id,
-                               "Кажется, произошла какая-то ошибка, извините, пожалуйста, мы решаем эти проблемы....")
+        logger.exception("desire_immunity", e)
+        await message.answer("Кажется, произошла какая-то ошибка, извините, пожалуйста, мы решаем эти проблемы....")
+
+async def desire_pain_muscles(message: Message, state: FSMContext):
+    try:
+        user_data = await state.get_data()
+
+        await state.update_data(answer=message.text)
+        get_data = await state.get_data()
+        answer = get_data.get('answer')
+
+        if 'list' in user_data:
+            if answer == 'Да':
+                if 'BCAA' not in user_data['list']:
+                    user_data['list'].append('BCAA')
+
+        list_str = "\n".join(user_data['list'])
+        print(user_data['list'])
+        await bot.send_chat_action(message.from_user.id, 'typing')
+        await message.answer("Я учёл все Ваши ответы на вопросы.\n"
+                             "Вот наиболее подходящие для Вас добавки:\n"
+                             f"{list_str}")
+    except Exception as e:
+        logger.exception("desire_immunity", e)
+        await message.answer("Кажется, произошла какая-то ошибка, извините, пожалуйста, мы решаем эти проблемы....")

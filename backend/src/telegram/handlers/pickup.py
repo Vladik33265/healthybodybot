@@ -18,16 +18,15 @@ async def pickup(user_id: int, state: FSMContext):
         user = Users.find_user(user_id)
         if user:
             await bot.send_message(user_id,
-                                   "Давайте подберём Вам спортивное питание!\n"
-                                   "Но перед тем, как мы подобрать тебе спортивное питание, "
-                                   "у меня есть несколько вопросов, касающихся Вашего физического здоровья.\n"
+                                   "Хорошо! Чтобы подобрать подходящее спортивное питание и добавки, "
+                                   "Вам необходимо ответить на несколько вопросов.\n"
                                    "\n"
                                    "Начнём?", reply_markup=to_pickup())
             await state.set_state(States.confirm_pickup)
         else:
             await bot.send_message(user_id,
                                    "Эта опция не доступна для тех, кто ещё не зарегистрировался в нашей системе.\n"
-                                   "Для начала пройди регистрацию, только потом ты сможешь "
+                                   "Для начала пройдите регистрацию, только потом Вы сможете "
                                    "пользоваться моими инструментами", reply_markup=register_user())
     except Exception as e:
         logger.exception("pickup", e)
@@ -45,11 +44,10 @@ async def lets_pickup(message: Message, state: FSMContext):
         answer = get_answer.get('answer')
 
         if answer == 'Начнём!':
-            await message.answer("Итак.. первый вопрос:\n"
-                                 "Какова твоя основная цель подбора спортивного питания?",
+            await message.answer("Какую основную цель Вы преследуете?",
                                  reply_markup=basic_target())
         if answer == 'Не сейчас':
-            await message.answer("Хорошо, тогда ты можешь перейти в меню, и выбрать необходимую команду!")
+            await message.answer("Хорошо, тогда Вы можете перейти в меню, и выбрать необходимую команду!")
     except Exception as e:
         logger.exception("lets pickup", e)
         await message.answer("Кажется, произошла какая-то ошибка, извините, пожалуйста, мы решаем эти проблемы....")
@@ -191,7 +189,7 @@ async def lactose(message: Message, state: FSMContext):
 
         await message.answer("Может быть у Вас есть какие-то дополнительные пожелания по спортивному питанию?\n"
                              "\n"
-                             "Например, у Вас есть желание <b>Улучшить состояние кожи</b>?",
+                             "Например, <b>улучшить состояние кожи</b>?",
                              reply_markup=yes_no())
 
         await state.set_state(States.skin)
@@ -213,7 +211,7 @@ async def desire_skin(message: Message, state: FSMContext):
                 if 'Коллаген' not in user_data['list']:
                     user_data['list'].append('Коллаген')
 
-        await message.answer("Хорошо, может быть Вы хотите <b>Снизить утомляемость</b>?", reply_markup=yes_no())
+        await message.answer("Хорошо, может быть Вы хотите <b>снизить утомляемость</b>?", reply_markup=yes_no())
         print("desire_skin", user_data['list'])
         await state.set_state(States.fatigue)
         await state.set_data(user_data)
@@ -235,7 +233,7 @@ async def desire_fatigue(message: Message, state: FSMContext):
                 if 'Бета-аланин' not in user_data['list']:
                     user_data['list'].append('Бета-аланин')
 
-        await message.answer("Вы хотите <b>Укрепить иммунитет</b>?", reply_markup=yes_no())
+        await message.answer("Хотите ли Вы <b>укрепить иммунитет</b>?", reply_markup=yes_no())
         print("desire_fatigue", user_data['list'])
         await state.set_state(States.immunity)
         await state.set_data(user_data)
@@ -257,7 +255,7 @@ async def desire_immunity(message: Message, state: FSMContext):
                 if 'Поливитаминный комплекс' not in user_data['list']:
                     user_data['list'].append('Поливитаминный комплекс')
 
-        await message.answer("Также, Вы хотите <b>Снизить боль в мышцах?</b>", reply_markup=yes_no())
+        await message.answer("<b>Снизить боль в мышцах?</b>", reply_markup=yes_no())
 
         await state.set_state(States.pain)
         await state.set_data(user_data)
@@ -279,12 +277,8 @@ async def desire_pain_muscles(message: Message, state: FSMContext):
                 if 'BCAA' not in user_data['list']:
                     user_data['list'].append('BCAA')
 
-        list_str = "\n".join(user_data['list'])
-
         await bot.send_chat_action(message.from_user.id, 'typing')
-        # await message.answer("Я учёл все Ваши ответы на вопросы.\n"
-        #                      "Вот наиболее подходящие для Вас добавки:\n"
-        #                      f"{list_str}")
+
         await message.answer("Я учёл все Ваши ответы на вопросы.\n"
                              "Вот наиболее подходящие для Вас добавки ниже по ссылке", reply_markup=result())
         await message.answer("Рекомендовано: "

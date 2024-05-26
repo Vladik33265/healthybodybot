@@ -13,13 +13,13 @@ async def signup(callback_query: CallbackQuery, state: FSMContext):
 
         if user:
             await bot.send_message(callback_query.from_user.id,
-                                   f"{callback_query.from_user.first_name}, ты зарегистрирован у нас!\n"
-                                   "Тебе доступны мои инструменты, взгляни на меню.")
+                                   f"{callback_query.from_user.first_name}, Вы зарегистрированы у нас!\n"
+                                   "Вам доступны мои инструменты, взгляните на меню.")
         else:
             await bot.send_message(callback_query.from_user.id,
                                    "Регистрация займёт <b>менее 1-ой минуты</b>. "
-                                   "После неё ты сможешь продолжить работу со мной!.\n"
-                                   "Напиши свой номер телефона..")
+                                   "После неё Вы сможете продолжить работу со мной!.\n"
+                                   "Напишите свой номер телефона..")
             await state.set_state(States.phone)
     except Exception as e:
         logger.exception("signup", e)
@@ -39,8 +39,8 @@ async def get_phone(message: Message, state: FSMContext):
                      first_name=message.from_user.first_name,
                      phone_number=phone)
         await message.answer(f"Отлично, {message.from_user.first_name}! Теперь мы можем начинать работу.\n"
-                             "Если ты хочешь, чтобы я подобрал для тебя спортивное питание, "
-                             "тогда переходи по кнопке ниже", reply_markup=pickup_food())
+                             "Если Вы хотите, чтобы я подобрал для Вас спортивное питание, "
+                             "тогда переходите по кнопке ниже.", reply_markup=pickup_food())
     except Exception as e:
         logger.exception("get_phone", e)
         await message.answer(

@@ -4,7 +4,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 def to_pickup() -> ReplyKeyboardMarkup:
     yes = KeyboardButton(text="Начнём!")
     no = KeyboardButton(text="Не сейчас")
-    kb = [[yes], [no]]
+    kb = [[yes, no]]
 
     keyboard = ReplyKeyboardMarkup(
         keyboard=kb,

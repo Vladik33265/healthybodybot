@@ -2,8 +2,8 @@
 
 1. Создать проект
 2. git clone https://github.com/Vladik33265/healthybodybot.git
-3. Создать .venv
-4. Активировать .venv
+3. Создать .venv, если не создался
+4. Активировать .venv, если не активировалось
 5. В консоли прописать pip install -r requirements.txt
 6. Создать .env написать туда:
 TOKEN=6660018566:AAE6ckPi7IWTtWIRasP_YZXGiuHqV1ig0zY

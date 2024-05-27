@@ -9,7 +9,7 @@ def to_pickup() -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardMarkup(
         keyboard=kb,
         resize_keyboard=True,
-        input_field_placeholder="Ты готов?",
+        input_field_placeholder="Вы готовы?",
         one_time_keyboard=True
     )
     return keyboard
@@ -19,12 +19,11 @@ def yes_no() -> ReplyKeyboardMarkup:
     yes = KeyboardButton(text="Да")
     no = KeyboardButton(text="Нет")
 
-    kb = [[yes], [no]]
+    kb = [[yes, no]]
 
     keyboard = ReplyKeyboardMarkup(
         keyboard=kb,
         resize_keyboard=True,
-        input_field_placeholder="Выберите необходимый вариант ответа?",
         one_time_keyboard=True
     )
     return keyboard

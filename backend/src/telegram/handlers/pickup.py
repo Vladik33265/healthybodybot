@@ -277,10 +277,15 @@ async def desire_pain_muscles(message: Message, state: FSMContext):
                 if 'BCAA' not in user_data['list']:
                     user_data['list'].append('BCAA')
 
-        await bot.send_chat_action(message.from_user.id, 'typing')
+        list_str = "\n".join(user_data['list'])
 
-        await message.answer("Я учёл все Ваши ответы на вопросы.\n"
-                             "Вот наиболее подходящие для Вас добавки ниже по ссылке", reply_markup=result())
+        await bot.send_chat_action(message.from_user.id, 'typing')
+        await bot.send_message(message.from_user.id,
+                               "Я учёл все Ваши ответы на вопросы.\n"
+                               "Вот <b>наиболее подходящие</b> для Вас добавки:\n"
+                               f"{list_str}")
+
+        await message.answer("Для детального изучения добавок, Вы можете перейти по ссылке ниже", reply_markup=result())
         await message.answer("Рекомендовано: "
                              "<b>проконсультироваться с врачом перед применением спортивного питания!!!</b>")
     except Exception as e:

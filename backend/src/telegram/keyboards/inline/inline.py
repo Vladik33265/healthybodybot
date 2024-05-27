@@ -35,6 +35,6 @@ def social_links() -> InlineKeyboardMarkup:
 def result() -> InlineKeyboardMarkup:
     url = 'https://vladik33265.github.io/Sports-nutrition-assistant/projects.html'
 
-    button = InlineKeyboardButton(text="Посмотреть результат", web_app=WebAppInfo(url=url))
+    button = InlineKeyboardButton(text="Продукция", web_app=WebAppInfo(url=url))
     markup = InlineKeyboardMarkup(inline_keyboard=[[button]])
     return markup
